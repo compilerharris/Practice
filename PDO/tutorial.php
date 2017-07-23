@@ -1,4 +1,5 @@
 
+
 <?php 
 	//include database class
 	include 'database.class.php';
@@ -84,10 +85,10 @@
 	//Selecting multiple record
 
 		//Select query
-		$database->query("SELECT * FROM student WHERE id = :id");
+		$database->query("SELECT * FROM student WHERE name LIKE '%a%'");
 
 		//bind values
-		$database->bind(":id",1);
+		// $database->bind(":a","a");
 
 		//Call resultset method to execute query and fetch multiple record using $databse->fetchAll(PDO::FETCH_ASSOC)
 		$row = $database->resultSet();
@@ -100,8 +101,15 @@
 			//Print selected value
 			echo "<pre>";
 			// print_r($row);
-			echo "Name: ".$row[0]['name']."<br>";
-			echo "Roll No: ".$row[0]['rollNo'];
+			for ($i=0;$i<$database->rowCount();$i++ ) {
+				echo "ID: ".$row[$i]['id']."<br>";
+				echo "Name: ".$row[$i]['name']."<br>";	
+				echo "Roll No: ".$row[$i]['rollNo']."<br><br><br>";
+				// echo "Name: ".$row[0]['name']."<br>";
+				// echo "Roll No: ".$row[0]['rollNo'];
+
+				// echo $database->rowCount();
+			}
 			echo "</pre>";
 		}
 
