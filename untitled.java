@@ -15,11 +15,29 @@ class PF
 		try{
 			System.out.print("Enter Key : ");
 			key = br.readLine();
+			int flag = 0;
+			char contain = 'j';
+
+			for (int i = 0 ; i < key.length() ; i += 1 ) {
+				if(key.charAt(i)<96 && key.charAt(i)>123){
+					throw new ArrayIndexOutOfBoundsException();
+				}
+				if(key.charAt(i) == 'j'){
+					contain = 'i';
+					flag += 1;
+				}
+				if(key.charAt(i) == 'i'){
+					flag += 1;
+				}
+				if (flag == 2) {
+					throw new Exception();
+				}
+			}
 			System.out.print("Enter Message : ");
 			msg = br.readLine();
 
 			int len = key.length();
-			int ind = 0, j = 0,i = 0,k = 0, flag = 0 ;
+			int ind = 0, j = 0,i = 0,k = 0;
 			for (i = 0 ; i < key.length() ; i += 1 ) {
 				alph[i] = key.charAt(i);
 			}
@@ -30,7 +48,7 @@ class PF
 						break;
 					}
 				}
-				if (a == 'j') {
+				if (a == contain) {
 				}
 				else{
 					if (ind == key.length()) {	
@@ -59,6 +77,10 @@ class PF
 			// }
 		}catch(IOException e){
 			e.printStackTrace();
+		}catch(ArrayIndexOutOfBoundsException e1){
+			System.out.println("Please enter a - z ONLY...");
+		}catch(Exception e2){
+			System.out.println("i and j together in string is not ALLOWED...");
 		}
 	}
 }
