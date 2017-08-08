@@ -2,7 +2,8 @@ import java.io.*;
 
 class Copy
 {
-	public static int i = 0, spaceArrCounter = 0, ind = 0, j = 0, pairA = 0, pairB = 0, pairX = 0, pairY, switchLoop = 0, cipherLoop, cipherCounter = 0;
+	public static int i = 0, spaceArrCounter = 0, ind = 0, j = 0, pairA = 0, pairB = 0, pairX = 0, pairY;
+	public static int switchLoop = 0, cipherLoop, cipherCounter = 0;
 	public static char a = 'a';
 	public static char pair[] = new char[2];
 	public static void main(String[] args) throws IOException
@@ -66,6 +67,10 @@ class Copy
 
 			//****************************calling generateCipherText
 			generateCipherText(msgCopy,arr,cipherText);
+
+			char dCipherText[] = new char[cipherText.length];
+
+			generateDecryptedText(cipherText,arr,dCipherText);
 
 		}catch(IOException e){
 			System.out.println("PlairFairError: ");
@@ -195,6 +200,64 @@ class Copy
 		System.out.print("Cipher Text : ");
 		for (i = 0 ; i < msgCopy.length() ; i += 1 ) {
 			System.out.print(cipherText[i]);
+		}
+	}
+
+	static void generateDecryptedText(char cipherText[], char arr[][], char dCipherText[]){
+		switchLoop = 0;cipherCounter = 0;
+		for (cipherLoop = 0 ; cipherLoop < cipherText.length/2 ; cipherLoop +=1 ) {
+			pair[0] = cipherText[switchLoop];
+			pair[1] = cipherText[switchLoop+1];
+			switchLoop += 2;
+
+			for (i = 0 ; i < arr.length ; i += 1 ) {
+				for (j = 0 ; j < arr.length ; j += 1 ) {
+					if ( arr[i][j] == pair[0] ) {
+						pairA = i;
+						pairB = j;
+					}
+					if ( arr[i][j] == pair[1] ) {
+						pairX = i;
+						pairY = j;
+					}
+				}
+			}
+			//checking rows
+			if ( pairA == pairX ) {
+				if (pairB == 0) {
+					pairB = arr.length - 1;
+					dCipherText[cipherCounter++] = arr[pairA][pairB];
+					dCipherText[cipherCounter++] = arr[pairX][pairY-1];
+				}else if (pairY == 0) {
+					pairY = arr.length - 1;
+					dCipherText[cipherCounter++] = arr[pairA][pairB-1];
+					dCipherText[cipherCounter++] = arr[pairX][pairY];
+				}else{
+					dCipherText[cipherCounter++] = arr[pairA][pairB-1];
+					dCipherText[cipherCounter++] = arr[pairX][pairY-1];
+				}
+			}else if( pairB == pairY ){
+			//checking cols
+				if (pairA == 0) {
+					pairA = arr.length - 1;
+					dCipherText[cipherCounter++] = arr[pairA][pairB];
+					dCipherText[cipherCounter++] = arr[pairX-1][pairY];
+				}else if (pairX == 0) {
+					pairX = arr.length - 1;
+					dCipherText[cipherCounter++] = arr[pairA-1][pairB];
+					dCipherText[cipherCounter++] = arr[pairX][pairY];
+				}else{
+					dCipherText[cipherCounter++] = arr[pairA-1][pairB];
+					dCipherText[cipherCounter++] = arr[pairX-1][pairY];
+				}
+			}else{
+				dCipherText[cipherCounter++] = arr[pairA][pairY];
+				dCipherText[cipherCounter++] = arr[pairX][pairB];
+			}
+		}
+		System.out.print("\nDecrypted Text : ");
+		for (i = 0 ; i < dCipherText.length ; i += 1 ) {
+			System.out.print(dCipherText[i]);
 		}
 	}
 }
