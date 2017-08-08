@@ -2,8 +2,8 @@ import java.io.*;
 
 class Copy
 {
-	public static int i = 0, spaceArrCounter = 0, ind = 0, j = 0, pairA = 0, pairB = 0, pairX = 0, pairY;
-	public static int switchLoop = 0, cipherLoop, cipherCounter = 0;
+	public static int i = 0, spaceArrCounter = 0, ind = 0, j = 0, pairA = 0, pairB = 0, pairX = 0, pairY = 0, spacePaddCounter = 0;
+	public static int switchLoop = 0, cipherLoop, cipherCounter = 0, fdtextCounter = 0;
 	public static char a = 'a';
 	public static char pair[] = new char[2];
 	public static void main(String[] args) throws IOException
@@ -32,9 +32,10 @@ class Copy
 			System.out.print("Enter Message : ");
 			msg = br.readLine();
 			msg = msg.trim();
+			int msgLen = msg.length();
 			String originalMsg = msg;
 			String msgCopy = "";
-			int spaceIndexArr[] = new int[msg.length()];
+			int spaceIndexArr[] = new int[msgLen];
 			msg = msg.replace(" ","X");
 			char X = 'X';
 
@@ -71,6 +72,21 @@ class Copy
 			char dCipherText[] = new char[cipherText.length];
 
 			generateDecryptedText(cipherText,arr,dCipherText);
+
+			char fDText[] = new char[dCipherText.length];
+
+			for (i = 0 ; i < dCipherText.length ; i += 1 ) {
+				if (i == spaceIndexArr[spacePaddCounter]) {
+					fDText[fdtextCounter++] = ' ';
+					spacePaddCounter += 1;
+				}
+				fDText[fdtextCounter++] = dCipherText[i];
+			}
+				
+			System.out.print("\nDecrypted Text with sapce: ");
+			for (i = 0 ; i < fDText.length ; i += 1 ) {
+				System.out.print(fDText[i]);
+			}			
 
 		}catch(IOException e){
 			System.out.println("PlairFairError: ");
