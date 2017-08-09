@@ -1,11 +1,13 @@
 import java.io.*;
+import java.util.*;
 
 class Untitled
 {
-	public static int i = 0, spaceArrCounter = 0, ind = 0, j = 0, pairA = 0, pairB = 0, pairX = 0, pairY = 0, spacePaddCounter = 0;
+	public static int i = 0, spaceArrCounter = 0, ind = 0, j = 0, k = 0, pairA = 0, pairB = 0, pairX = 0, pairY = 0, spacePaddCounter = 0;
 	public static int switchLoop = 0, cipherLoop, cipherCounter = 0, fdtextCounter = 0, mainVar = 0;
 	public static char a = 'a';
 	public static char pair[] = new char[2];
+    public static boolean lastAlpha = false;
 	public static void main(String[] args) throws IOException
 	{
 		InputStreamReader isr = new InputStreamReader(System.in);
@@ -13,10 +15,8 @@ class Untitled
 
 		String key = "";
 		String msg = "";
-		boolean lastAlpha = false;
 		char arr [][] = new char [5][5];
 		char alph [] = new char[25];
-		int k = 0;
 		try{
 			System.out.println("NOTE: You can't repeat any alphabet in key");
 			System.out.print("Enter Key : ");
@@ -36,18 +36,18 @@ class Untitled
 			String originalMsg = msg;
 			String msgCopy = "";
 			int spaceIndexArr[] = new int[msgLen];
+			for ( i = 0 ; i < spaceIndexArr.length ; i += 1 ) {
+				spaceIndexArr[i] = 'H';
+			}
 			msg = msg.replace(" ","X");
 			char X = 'X';
 
 			//****************************calling removeSpacePaddx
 			msgCopy = removeSpacePaddx(msg,X,spaceIndexArr,msgCopy);
 
-			if( msgCopy.length()%2 != 0){
-				msgCopy += "x";
-				lastAlpha = true;
-			}
+			msgCopy = getEvenLen(msgCopy);
 
-			System.out.println("New Message with 'x' padded: "+msgCopy);
+			// System.out.println("New Message with 'x' padded: "+msgCopy);
 			for (i = 0 ; i < key.length() ; i += 1 ) {
 				alph[i] = key.charAt(i);
 			}
@@ -55,11 +55,7 @@ class Untitled
 			//****************************calling singleArrMatrix
 			singleArrMatrix(alph,key,len,contain);
 
-			for (i = 0 ; i < arr.length ; i += 1 ) {
-				for ( j = 0 ; j < arr.length ; j += 1 ) {
-					arr[i][j] = alph[k++];
-				}
-			}
+			generateMatrix(arr,alph);
 
 			//****************************calling printMatrix
 			printMatrix(arr);
@@ -73,11 +69,19 @@ class Untitled
 
 			generateDecryptedText(cipherText,arr,dCipherText);
 
+ 			if (lastAlpha) {
+ 				// dCipherText = Arrays.copyOfRange(dCipherText,0,cipherCounter-1);
+ 				dCipherText[cipherCounter-1] = 'Z';
+ 			}
+
 			char fDText[] = new char[100];				
 
- 			
 			for(i = 0 ; i < dCipherText.length ; i += 1 ){
-				if (dCipherText[i] != 'x') {
+				if (dCipherText[i] == 'x') {
+					if (dCipherText[i-1] != dCipherText[i+1]) {
+						dCipherText[mainVar++] = dCipherText[i];	
+					}
+				}else{
 					dCipherText[mainVar++] = dCipherText[i]; 
 				}
 			}
@@ -90,7 +94,7 @@ class Untitled
 
  			//*****************************
  			mainVar = 0;
-			for (i = 0 ; i <= originalMsg.length() ; i += 1 ) {
+			for (i = 0 ; i < originalMsg.length() ; i += 1 ) {
 				if (i == spaceIndexArr[spacePaddCounter]) {
 				// System.out.print("i="+i+"spaceIndex: "+spaceIndexArr[spacePaddCounter]+"fdtextCounter: "+fdtextCounter);
 					fDText[fdtextCounter++] = ' ';
@@ -100,8 +104,8 @@ class Untitled
 				}
 			}
 				
-			System.out.print("\nDecrypted Text with sapce: ");
-			for (i = 0 ; i < fdtextCounter - 1 ; i += 1 ) {
+			System.out.print("\nDecrypted Text: ");
+			for (i = 0 ; i <= originalMsg.length() ; i += 1 ) {
 				System.out.print(fDText[i]);
 			}			
 
@@ -151,6 +155,14 @@ class Untitled
 		return msgCopy;	
 	}
 
+	static String getEvenLen(String msgCopy){
+		if( msgCopy.length()%2 != 0){
+			msgCopy += "x";
+			lastAlpha = true;
+		}
+		return msgCopy;
+	}
+
 	static void singleArrMatrix(char alph[], String key, int len, char contain ){
 		for (i = 0 ; i <= alph.length ; i += 1 ) {
 			for (ind = 0 ; ind < key.length() ; ind += 1 ) {
@@ -167,6 +179,14 @@ class Untitled
 				}
 			}
 			a++;
+		}
+	}
+
+	static void generateMatrix(char arr[][], char alph[]){
+		for (i = 0 ; i < arr.length ; i += 1 ) {
+			for ( j = 0 ; j < arr.length ; j += 1 ) {
+				arr[i][j] = alph[k++];
+			}
 		}
 	}
 
@@ -288,9 +308,9 @@ class Untitled
 				dCipherText[cipherCounter++] = arr[pairX][pairB];
 			}
 		}
-		System.out.print("\nDecrypted Text : ");
-		for (i = 0 ; i < dCipherText.length ; i += 1 ) {
-			System.out.print(dCipherText[i]);
-		}
+		// System.out.print("\nDecrypted Text : ");
+		// for (i = 0 ; i < dCipherText.length ; i += 1 ) {
+		// 	System.out.print(dCipherText[i]);
+		// }
 	}
 }
