@@ -74,35 +74,16 @@ class Untitled
  				dCipherText[cipherCounter-1] = 'Z';
  			}
 
+ 			removexfromDecryptedText(dCipherText);
+
+			// System.out.print("\nDecrypted Text without x: ");
+			// for (i = 0 ; i < mainVar ; i += 1 ) {
+			// 	System.out.print(dCipherText[i]);
+			// }			
+
 			char fDText[] = new char[100];				
 
-			for(i = 0 ; i < dCipherText.length ; i += 1 ){
-				if (dCipherText[i] == 'x') {
-					if (dCipherText[i-1] != dCipherText[i+1]) {
-						dCipherText[mainVar++] = dCipherText[i];	
-					}
-				}else{
-					dCipherText[mainVar++] = dCipherText[i]; 
-				}
-			}
-
-			System.out.print("\nDecrypted Text without x: ");
-			for (i = 0 ; i < mainVar ; i += 1 ) {
-				System.out.print(dCipherText[i]);
-			}			
-
-
- 			//*****************************
- 			mainVar = 0;
-			for (i = 0 ; i < originalMsg.length() ; i += 1 ) {
-				if (i == spaceIndexArr[spacePaddCounter]) {
-				// System.out.print("i="+i+"spaceIndex: "+spaceIndexArr[spacePaddCounter]+"fdtextCounter: "+fdtextCounter);
-					fDText[fdtextCounter++] = ' ';
-					spacePaddCounter += 1;
-				}else{
-					fDText[fdtextCounter++] = dCipherText[mainVar++];
-				}
-			}
+			decryption(originalMsg,spaceIndexArr,fDText,dCipherText);
 				
 			System.out.print("\nDecrypted Text: ");
 			for (i = 0 ; i <= originalMsg.length() ; i += 1 ) {
@@ -312,5 +293,30 @@ class Untitled
 		// for (i = 0 ; i < dCipherText.length ; i += 1 ) {
 		// 	System.out.print(dCipherText[i]);
 		// }
+	}
+
+	static void removexfromDecryptedText(char dCipherText[]){
+		for(i = 0 ; i < dCipherText.length ; i += 1 ){
+			if (dCipherText[i] == 'x') {
+				if (dCipherText[i-1] != dCipherText[i+1]) {
+					dCipherText[mainVar++] = dCipherText[i];	
+				}
+			}else{
+				dCipherText[mainVar++] = dCipherText[i]; 
+			}
+		}
+	}
+
+	static void decryption(String originalMsg, int spaceIndexArr[], char fDText[], char dCipherText[]){
+		mainVar = 0;
+		for (i = 0 ; i < originalMsg.length() ; i += 1 ) {
+			if (i == spaceIndexArr[spacePaddCounter]) {
+			// System.out.print("i="+i+"spaceIndex: "+spaceIndexArr[spacePaddCounter]+"fdtextCounter: "+fdtextCounter);
+				fDText[fdtextCounter++] = ' ';
+				spacePaddCounter += 1;
+			}else{
+				fDText[fdtextCounter++] = dCipherText[mainVar++];
+			}
+		}
 	}
 }
