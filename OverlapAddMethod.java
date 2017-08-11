@@ -13,10 +13,10 @@ class Matrix{ // Declare MatrixMethod class
 		h = hP;
 	}
 
-	public  void allMethod() { // allMethod method
+	public void allMethod() { // allMethod method
 
 
-		paddZero(x,h);
+		paddZero(x,h,nXSample,nHSample);
 		
 		int [][] leftArray = new int [nXSample][nXSample]; // Left Array
 
@@ -49,7 +49,7 @@ class Matrix{ // Declare MatrixMethod class
         printAll(x,h,leftArray,rightArray,finalArray);
 	}
 
-	 void paddZero(int x[], int h[]){
+	 void paddZero(int x[], int h[], int nXSample, int nHSample){
 		if(nXSample != nHSample){ //constrain for checking no.of samples
 			// int dif = Math.abs(nXSample - nHSample); //calculate difference
 			if( nXSample < nHSample){ // constrain
@@ -127,34 +127,41 @@ class Matrix{ // Declare MatrixMethod class
 
 
 class OverlapAddMethod extends Matrix{
+	public OverlapAddMethod(int nXSampleP, int nHSampleP, int[] xP, int[] hP) {
+		super(nXSampleP, nHSampleP, xP, hP);
+		// TODO Auto-generated constructor stub
+	}
+
 	public static void main(String[] args) {
 		
         System.out.println("\n\n");
 		System.out.println("***************DIGITAL SIGNAL PROCESSING***************");
 		System.out.println("******************OVERLAP ADD METHOD*****************");
-		int [] x = new int[20]; //Declare x array for holding samples of x(n)
-		int [] h = new int[20]; //Declare h array for holding samples of h(n)
 		int m = 0;
 
 		Scanner sc = new Scanner(System.in); // Creating object of Scanner class
 		System.out.println("Enter how many samples will be there in x(n): ");// print
 		int nXSample = sc.nextInt(); // Scan value in nXSample (no.of sample in x(n))
 
+		int [] x = new int[nXSample*10]; //Declare x array for holding samples of x(n)
 		System.out.println("Enter "+nXSample+" samples for x(n): "); //print 
 		for (int i=0; i<nXSample ; i += 1 ) { //Getting value in array x
 			x[i] = sc.nextInt();
 		}
 
-		// System.out.println("Enter how many samples will be there in h(n): "); //print
-		// int nHSample = sc.nextInt(); // Scan value in nHSample (no.of sample in h(n))
+		System.out.println("Enter how many samples will be there in h(n): "); //print
+		int nHSample = sc.nextInt(); // Scan value in nHSample (no.of sample in h(n))
 
-		// System.out.println("Enter "+nHSample+" samples for h(n): "); //print
-		// for (int i=0; i<nHSample ; i += 1 ) { //Getting value in array h
-		// 	h[i] = sc.nextInt();
-		// }
+		int [] h = new int[nHSample*10]; //Declare h array for holding samples of h(n)
+		System.out.println("Enter "+nHSample+" samples for h(n): "); //print
+		for (int i=0; i<nHSample ; i += 1 ) { //Getting value in array h
+			h[i] = sc.nextInt();
+		}
 
-		m = x.length;
-		System.out.println(m);
+		m = h.length;
+		
+		Matrix matrix = new Matrix(nXSample, nHSample, x, h);
+		matrix.allMethod();
 
 		System.out.println("*****************COMPILERHARRIS***************");
 		System.out.println("********************15DCO67*******************");
