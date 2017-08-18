@@ -1,0 +1,15 @@
+clc;
+clf;
+subplot(2,2,1);
+x=[0:0.1:2*%pi];
+disp(x);
+plot(sin(x));
+subplot(2,2,2);
+plot2d3(sin(x));
+a=[1,4,0,0,0,6,9];
+subplot(2,2,3);
+plot(a);
+replot([0,0,7,7]);
+subplot(2,2,4);
+plot2d3(a);
+replot([0,0,7,7]);
