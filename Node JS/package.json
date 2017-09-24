@@ -1,0 +1,23 @@
+{
+  "name": "compilerharris",
+  "version": "1.0.1",
+  "main": "Node JS",
+  "dependencies": {
+    "body": "^5.1.0",
+    "body-parser": "^1.18.2",
+    "ejs": "^2.5.7",
+    "express": "^4.15.4",
+    "nodemon": "^1.12.1",
+    "yargs": "^4.7.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Haris Shaikh",
+  "license": "ISC",
+  "keywords": [
+    "haris"
+  ],
+  "description": ""
+}
